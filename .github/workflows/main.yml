@@ -1,0 +1,21 @@
+name: Website Aufruf
+
+on:
+  schedule:
+    # Aufruf alle 7 Minuten
+    - cron: '*/7 * * * *'
+  workflow_dispatch:
+    # Ermöglicht manuelles Auslösen der Action
+
+jobs:
+  http-request:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Website aufrufen
+        run: |
+          curl -s -o /dev/null -w "Status Code: %{http_code}\nZeit: %{time_total}s\n" "https://todo-f15e.onrender.com/"
+          
+      - name: Zeitpunkt protokollieren
+        run: |
+          echo "Website wurde aufgerufen am $(date)"
